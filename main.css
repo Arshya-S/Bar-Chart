@@ -32,8 +32,19 @@
 
 }
 
-.bar-top{
+.bar-top {
   position: absolute;
   height: 2px;
   background: black;
+}
+
+.values{
+  position: absolute;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+
+
+
+
 }
