@@ -12,12 +12,27 @@ $(document).ready(function(){
     const hLine = $('<div>').addClass('h_line')
     hLine.css('width', options.chartWidth);
     $(element).append(hLine);
+
+    // create ticks on the y-axis
+    let interval = options.chartHeight / options.tickCount;
+    for (let i = 0; i < options.tickCount; i++) {
+      let tick = $('<div>').addClass('tick').css('top', i * interval + 'px').css('left', '-7.5px');
+      $(vLine).append(tick);
+    }
   }
 
-// function that creates the bars
-const createBars = function () {
-  return;
-}
+  // function that creates the bars
+  const createBars = function (data,element,options) {
+
+    for (let value of data) {
+      let leftVertical = $('<div>').addClass('bar');
+      leftVertical.css('height', maxValue)
+
+    }
+
+
+
+  }
 
 
 
@@ -37,8 +52,8 @@ const createBars = function () {
 
   // Test Code:
   let element = '#reference';
-  let data = [1,2,3,4,5];
-  let options = {chartWidth:200, chartHeight:200};
+  let data = [2,4,5,6,9];
+  let options = {chartWidth:500, chartHeight:500, tickCount: 5};
 
   drawBarChart(data,options,element);
 

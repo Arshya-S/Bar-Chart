@@ -1,4 +1,8 @@
 .h_line {
+  position: relative;
+  bottom: 0;
+  left: 20;
+
   height: 1.5px;
   width: 1px;
   background: black;
@@ -6,7 +10,18 @@
 }
 
 .v_line {
+  position: relative;
+  bottom: 0;
+  left: 20;
   height: 1px;
   width: 1.5px;
   background: black;
 }
+
+.tick {
+  position: absolute;
+  height: 2px;
+  width: 15px;
+  background: black;
+}
+
