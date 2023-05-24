@@ -27,7 +27,13 @@
 .bar {
   position: absolute;
   bottom: 0;
-  width: 1px;
+  width: 1.5px;
   background: black;
 
+}
+
+.bar-top{
+  position: absolute;
+  height: 2px;
+  background: black;
 }

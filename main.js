@@ -23,7 +23,7 @@ $(document).ready(function(){
   }
 
   // function that creates the bars
-  const createBars = function (data,options,element) {
+  const createBars = function (data,options) {
     // finds the max value of the data
     let maxValue = Math.max(...data);
     // partitions x-axis to create evenly spread out bars
@@ -35,19 +35,27 @@ $(document).ready(function(){
     for (let i = 0; i < data.length; i++) {
       let leftVertical = $('<div>').addClass('bar');
       leftVertical.css('height', (data[i]/maxValue)*options.chartHeight + 'px');
-      leftVertical.css('left', 20 + (i * division));
+      leftVertical.css('left', (i * division));
 
       let rightVertical = $('<div>').addClass('bar');
       rightVertical.css('height', (data[i]/maxValue)*options.chartHeight + 'px');
-      rightVertical.css('left', 40 + (i * division));
+      rightVertical.css('left', (i * division) + division);
 
+      let barTop = $('<div>').addClass('bar-top');
+      barTop.css('width',division);
+      barTop.css('top', -((data[i]/maxValue)*options.chartHeight) + 'px');
+      barTop.css('left', (i * division));
 
-
-      $(element).append(leftVertical)
-      $(element).append(rightVertical)
+      // appending elements to class: h_line
+      $('.h_line').append(barTop);
+      $('.h_line').append(leftVertical)
+      $('.h_line').append(rightVertical)
     }
   }
+  // function that inserts the values into th bar at user specified point
+  const insertValues = function (data,options) {
 
+  }
 
 
 
@@ -59,7 +67,7 @@ $(document).ready(function(){
 
     createAxis(options, '.chart_body');
 
-    createBars(data,options,'.h_line');
+    createBars(data,options);
   }
 
 
@@ -68,8 +76,8 @@ $(document).ready(function(){
 
   // Test Code:
   let element = '#reference';
-  let data = [6,4,5,6,9];
-  let options = {chartWidth:500, chartHeight:500, tickCount: 5};
+  let data = [6,4,5,6,9,5,4,2];
+  let options = {chartWidth:500, chartHeight:500, tickCount: 5, valuePosition: top};
 
   drawBarChart(data,options,element);
 
