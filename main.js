@@ -5,14 +5,14 @@ $(document).ready(function(){
 
     // create div for vertical line and set height
     const vLine = $('<div>').addClass('v_line')
-    vLine.css('height', options.chartHeight);
+    vLine.css('height', options.chartHeight).css('position', 'relative').css('left', 40).css('width', 1.5).css('background', 'black');
 
 
     $(element).append(vLine);
 
     // create div for horizontal line and set width
     const hLine = $('<div>').addClass('h_line');
-    hLine.css('width', options.chartWidth);
+    hLine.css('width', options.chartWidth).css('position', 'relative').css('left', 40).css('height', 1.5).css('background', 'black');
     $(element).append(hLine);
 
     // create ticks on the y-axis and values for the ticks
@@ -45,7 +45,7 @@ $(document).ready(function(){
       barColor.css('width', division - options.barSpacing);
       barColor.css('height', (data[i]/maxValue) * options.chartHeight + 'px');
       barColor.css('left', (i * division) + 2);
-      barColor.css('top', -((data[i]/maxValue)*options.chartHeight) + 'px' )
+      barColor.css('top', -((data[i]/maxValue)*options.chartHeight)-2 + 'px' )
       barColor.css('background', options.barColor);
 
       $('.h_line').append(barColor);
@@ -112,9 +112,11 @@ $(document).ready(function(){
     title.text(options.title);
 
     // centres title
+    title.css('position', 'relative').css('font-weight', 'bold');
     title.css('left', (options.chartWidth/2) - 15);
     title.css('color', options.titleColor);
     title.css('font-size', options.titleSize);
+
 
     // creates gap between title and chart
     let blank = $('<div>').addClass('blank');
@@ -124,6 +126,7 @@ $(document).ready(function(){
 
     // rendering chart into user defined element
     const chartBody = $('<div>').addClass('chart_body');
+    chartBody.css('position', 'relative');
     $(element).append(chartBody);
 
     createAxis(options, '.chart_body',data);
@@ -139,8 +142,8 @@ $(document).ready(function(){
 
   // Test Code:
   let element = '#reference';
-  let data = [4,3,2,7,8,2,5];
-  let options = {chartWidth:500, chartHeight:500, tickCount: 5, valuePosition: 'top', barColor: 'orange', barSpacing: 4, title: 'My Bar Chart!', titleColor: 'green', titleSize: '20', labelColor: 'blue'};
+  let data = [1,2,3,4];
+  let options = {chartWidth:500, chartHeight:500, tickCount: 5, valuePosition: 'centre', barColor: 'CadetBlue', barSpacing: 5, title: 'My List of Numbers:', titleColor: 'DarkSlateBlue', titleSize: '20', labelColor: 'DarkSeaGreen'};
 
   drawBarChart(data,options,element);
 
