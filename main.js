@@ -1,11 +1,12 @@
 $(document).ready(function(){
 
   // function that creates the axis of the chart
-  const createAxis = function (options,element) {
+  const createAxis = function (options,element,data) {
 
     // create div for vertical line and set height
     const vLine = $('<div>').addClass('v_line')
     vLine.css('height', options.chartHeight);
+
 
     $(element).append(vLine);
 
@@ -14,11 +15,21 @@ $(document).ready(function(){
     hLine.css('width', options.chartWidth);
     $(element).append(hLine);
 
-    // create ticks on the y-axis
+    // create ticks on the y-axis and values for the ticks
     let interval = options.chartHeight / options.tickCount;
-    for (let i = 0; i < options.tickCount; i++) {
+    let maxValue = Math.max(...data);
+    let tickValueCount = maxValue / options.tickCount;
+
+
+    for (let i = options.tickCount; i >= 0; i--) {
       let tick = $('<div>').addClass('tick').css('top', i * interval + 'px').css('left', '-7.5px');
       $(vLine).append(tick);
+
+      let tickValue = $('<p>').addClass('tickValue');
+      tickValue.text(-((i - options.tickCount) * tickValueCount).toFixed(2));
+      tickValue.css('top', -20);
+      tickValue.css('right', 20);
+      $(tick).append(tickValue);
     }
   }
 
@@ -75,6 +86,24 @@ $(document).ready(function(){
   }
 
 
+  // function for creating labels for the data values
+  const insertLabel = function (data,options) {
+    let maxValue = Math.max(...data);
+    let division = options.chartWidth / data.length;
+
+    for (let i = 0; i < data.length; i++) {
+      let label = $('<p>').addClass('label');
+      label.text('Value ' + (i+1));
+      label.css('color', options.labelColor);
+      label.css('left', (i * division) + 10);
+      label.css('top', 0);
+      $('.h_line').append(label);
+    }
+
+
+  }
+
+
   // function that calls all other functions and creates the bar chart
   // appends all features to the user defined html element by appending a div to it
   const drawBarChart = function (data, options, element) {
@@ -97,11 +126,13 @@ $(document).ready(function(){
     const chartBody = $('<div>').addClass('chart_body');
     $(element).append(chartBody);
 
-    createAxis(options, '.chart_body');
+    createAxis(options, '.chart_body',data);
 
     barColor(data,options);
 
     insertValues(data,options);
+
+    insertLabel(data,options);
   }
 
 
@@ -109,7 +140,7 @@ $(document).ready(function(){
   // Test Code:
   let element = '#reference';
   let data = [4,3,2,7,8,2,5];
-  let options = {chartWidth:500, chartHeight:500, tickCount: 5, valuePosition: 'top', barColor: 'orange', barSpacing: 4, title: 'My Bar Chart!', titleColor: 'green', titleSize: '20'};
+  let options = {chartWidth:500, chartHeight:500, tickCount: 5, valuePosition: 'top', barColor: 'orange', barSpacing: 4, title: 'My Bar Chart!', titleColor: 'green', titleSize: '20', labelColor: 'blue'};
 
   drawBarChart(data,options,element);
 
