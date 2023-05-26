@@ -39,10 +39,10 @@ $(document).ready(function(){
 
       let rightVertical = $('<div>').addClass('bar');
       rightVertical.css('height', (data[i]/maxValue)*options.chartHeight + 'px');
-      rightVertical.css('left', (i * division) + division);
+      rightVertical.css('left', (i * division) + (division - options.barSpacing));
 
       let barTop = $('<div>').addClass('bar-top');
-      barTop.css('width',division);
+      barTop.css('width',(division - options.barSpacing));
       barTop.css('top', -((data[i]/maxValue)*options.chartHeight) + 'px');
       barTop.css('left', (i * division));
 
@@ -53,20 +53,34 @@ $(document).ready(function(){
     }
   }
 
+  // function that creates color for the bars
+  const barColor = function (data,options) {
+    let division = options.chartWidth / data.length;
+    let maxValue = Math.max(...data);
+    // loop over each value of data and and set color height, width, left and top positions
+    // appending to class = .h_line
+    for (let i =0; i < data.length; i++) {
+      let barColor = $('<div>').addClass('barColor');
+      barColor.css('width', division - options.barSpacing-1);
+      barColor.css('height', (data[i]/maxValue) * options.chartHeight - 2 + 'px');
+      barColor.css('left', (i * division)+1);
+      barColor.css('top', -((data[i]/maxValue)*options.chartHeight)+2 + 'px' )
+      barColor.css('background', options.barColor);
+      $('.h_line').append(barColor);
+    }
+  }
 
-  // function that inserts the values into th bar at user specified point
+
+  // function that inserts the values into the bar at user specified point
   const insertValues = function (data,options) {
     let maxValue = Math.max(...data);
     let division = options.chartWidth / data.length;
-
-
-
 
     if (options.valuePosition === 'top') {
       for (let i = 0; i < data.length; i++) {
         let displayValue = $('<p>').addClass('values');
         displayValue.text(data[i]);
-        displayValue.css('left', 25 + i * division);
+        displayValue.css('left', (25 + 0.2*options.barSpacing) + i * division);
         displayValue.css('top', -((data[i]/maxValue)*options.chartHeight));
         $('.h_line').append(displayValue);
       }
@@ -89,11 +103,12 @@ $(document).ready(function(){
     }
   }
 
+  const creatTitle = function () {
 
+  }
 
-
-
-
+  // function that calls all other functions and creates the bar chart
+  // appends all features to the user defined html element by appending a div to it
   const drawBarChart = function (data, options, element) {
     // rendering chart into user defined element
     const chartBody = $('<div>').addClass('chart_body');
@@ -103,17 +118,19 @@ $(document).ready(function(){
 
     createBars(data,options);
 
+    barColor(data,options);
+
     insertValues(data,options);
+
+
   }
-
-
 
 
 
   // Test Code:
   let element = '#reference';
-  let data = [5,6,9,5,2,10,6,8];
-  let options = {chartWidth:500, chartHeight:500, tickCount: 5, valuePosition: 'top'};
+  let data = [4,3,2,7,8,2,5];
+  let options = {chartWidth:500, chartHeight:500, tickCount: 5, valuePosition: 'top', barColor: 'orange', barSpacing: 10, title: 'My Bar Chart!'};
 
   drawBarChart(data,options,element);
 

@@ -38,12 +38,16 @@
   background: black;
 }
 
-.values{
+.values {
   position: absolute;
   color: black;
   font-size: 20px;
   font-weight: bold;
+}
 
+.barColor {
+  position: absolute;
+  opacity: 0.9;
 
 
 
